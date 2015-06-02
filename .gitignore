@@ -1,4 +1,7 @@
 *.log
 *.pot
 *.pyc
+*.xls
+*.xlsx
+.DS_Store
 local_settings.py

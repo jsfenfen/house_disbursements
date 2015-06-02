@@ -1,0 +1,91 @@
+public | senate                                    | table    | jfenton
+public | senate_disburse_first_name                | table    | ftpdata
+public | senate_disburse_first_name_id_seq         | sequence | ftpdata
+public | senate_disburse_sod                       | table    | ftpdata
+public | senate_disburse_sod_id_seq                | sequence | ftpdata
+public | skedb                                     | table    | jfenton
+public | skede
+
+
+ftpdata=# \d senate_disburse_sod;
+                                     Table "public.senate_disburse_sod"
+     Column      |          Type          |                            Modifiers                             
+-----------------+------------------------+------------------------------------------------------------------
+ id              | integer                | not null default nextval('senate_disburse_sod_id_seq'::regclass)
+ bioguide_id     | character varying(7)   | 
+ source_doc      | character varying(15)  | 
+ senator_flag    | character varying(1)   | 
+ senator_name    | character varying(127) | 
+ raw_office      | character varying(256) | 
+ funding_year    | character varying(7)   | 
+ fiscal_year     | character varying(7)   | 
+ congress_no     | character varying(3)   | 
+ reference_page  | character varying(5)   | 
+ transaction_id  | character varying(15)  | 
+ date_posted_raw | character varying(15)  | 
+ start_date_raw  | character varying(15)  | 
+ end_date_raw    | character varying(15)  | 
+ date_posted     | date                   | 
+ start_date      | date                   | 
+ end_date        | date                   | 
+ description     | text                   | 
+ salary_flag     | character varying(1)   | 
+ amount          | double precision       | 
+ amount_raw      | character varying(31)  | 
+ payee           | character varying(511) | 
+ payee_first     | character varying(127) | 
+ payee_middle    | character varying(127) | 
+ payee_last      | character varying(127) | 
+ first_name_id   | integer                | 
+Indexes:
+    "senate_disburse_sod_pkey" PRIMARY KEY, btree (id)
+    "senate_disburse_sod_first_name_id" btree (first_name_id)
+Foreign-key constraints:
+    "senate_disburse_sod_first_name_id_fkey" FOREIGN KEY (first_name_id) REFERENCES senate_disburse_first_name(id) DEFERRABLE INITIALLY DEFERRED
+
+ftpdata=# 
+
+-----
+-----
+-- senate 
+-- package of 
+-----
+-----
+
+select salary_flag, left(description, 20), count(*), sum(amount) from senate_disburse_sod group by salary_flag, left(description, 20) order by sum(amount) desc;
+
+
+select salary_flag, description from senate_disburse_sod where salary_flag is true;
+
+select salary_flag, left(description, 20), count(*), sum(amount) from senate_disburse_sod group by salary_flag, description from senate_disburse_sod
+where salary_flag ilike = '%1%';
+
+
+select salary_flag, left(description, 20), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' group  by salary_flag, left(description, 20) order by sum(amount) desc;
+
+
+select salary_flag, left(description, 50), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' and description like ('%TRANSPORTATION%' '%PER DIEM%') group  by salary_flag, left(description, 50) order by sum(amount) desc;
+
+select salary_flag, left(description, 50), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' and description like '%TRANSPORTATION%' group  by salary_flag, description order by sum(amount) desc;
+
+
+select salary_flag, left(description, 50), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' and description like '%HONOLU%' group  by salary_flag, description order by sum(amount) desc;
+
+
+select salary_flag, left(description, 50), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' and description like '%VEGAS%' group  by salary_flag, description order by sum(amount) desc;
+
+select salary_flag, left(description, 50), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' and description like '%PUERTO%' group  by salary_flag, description order by sum(amount) desc;
+
+select salary_flag, left(description, 50), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' and (description like '%PUERTO%' OR description like '%SAN JUAN%') group  by salary_flag, description order by sum(amount) desc;
+
+select salary_flag, left(description, 50), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' and description like '%HONOLU%' group  by salary_flag, description order by sum(amount) desc;
+
+
+select raw_office, source_doc, left(description, 50), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' and description like '%VEGAS%' group  by raw_office, source_doc, description order by sum(amount) desc;
+
+select raw_office, source_doc, left(description, 50), count(*), sum(amount) from senate_disburse_sod where salary_flag = '0' and description like '%HONO%' group  by raw_office, source_doc, description order by sum(amount) desc;
+
+
+ order by sum(amount) desc;
+ 
+  description order by sum(amount) desc;
